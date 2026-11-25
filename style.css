@@ -1,0 +1,137 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  user-select: none;
+}
+
+body {
+  background: #0f172a;
+  color: #f8fafc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+#app {
+  width: 100%;
+  max-width: 620px;
+  background: #1e293b;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+  border: 1px solid #334155;
+}
+
+.screen { display: none; flex-direction: column; align-items: center; }
+.screen.active { display: flex; }
+
+.logo { font-size: 2.4rem; letter-spacing: 2px; margin-bottom: 5px; }
+.logo span { color: #22c55e; }
+.subtitle { color: #94a3b8; margin-bottom: 25px; }
+
+.role-cards { display: flex; gap: 15px; width: 100%; }
+.role-btn {
+  flex: 1;
+  background: #0f172a;
+  border: 2px solid #334155;
+  color: white;
+  padding: 25px 15px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: 0.2s;
+}
+.role-btn:hover { border-color: #22c55e; transform: translateY(-4px); }
+.role-btn .icon { font-size: 2.5rem; }
+.role-btn strong { font-size: 1.2rem; color: #22c55e; }
+.role-btn small { color: #94a3b8; }
+
+.top-bar { width: 100%; display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
+.back-btn { background: #334155; color: white; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; }
+
+.tabs { display: flex; width: 100%; gap: 10px; margin-bottom: 15px; }
+.tab { flex: 1; padding: 10px; background: #0f172a; border: 1px solid #334155; color: #94a3b8; border-radius: 8px; cursor: pointer; font-weight: bold; }
+.tab.active { background: #22c55e; color: #0f172a; border-color: #22c55e; }
+
+.panel { display: none; width: 100%; margin-bottom: 15px; }
+.panel.active { display: block; }
+
+.player-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+.player-card {
+  background: #0f172a;
+  border: 2px solid #334155;
+  padding: 10px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.player-card.selected { border-color: #22c55e; background: #14532d44; }
+.stats-mini { font-size: 0.85rem; color: #cbd5e1; display: flex; gap: 10px; }
+.stats-mini span { background: #1e293b; padding: 3px 8px; border-radius: 5px; }
+
+.custom-box { background: #0f172a; padding: 15px; border-radius: 10px; border: 1px solid #334155; }
+.custom-box input[type="text"] {
+  width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #475569;
+  background: #1e293b; color: white; font-size: 1rem; margin-bottom: 10px;
+}
+.points-badge { font-weight: bold; color: #facc15; margin-bottom: 12px; text-align: right; }
+.stat-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.stat-controls { display: flex; align-items: center; gap: 10px; }
+.stat-controls button {
+  width: 28px; height: 28px; border-radius: 6px; border: none;
+  background: #334155; color: white; font-weight: bold; cursor: pointer;
+}
+.stat-controls button:hover { background: #22c55e; color: #0f172a; }
+
+.mode-box { width: 100%; background: #0f172a; padding: 12px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #334155; }
+.mode-box p { font-size: 0.9rem; color: #94a3b8; margin-bottom: 8px; }
+.mode-options { display: flex; flex-direction: column; gap: 6px; }
+.mode-opt { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.95rem; }
+
+.start-match-btn {
+  width: 100%; padding: 14px; background: #22c55e; color: #0f172a;
+  border: none; border-radius: 10px; font-size: 1.1rem; font-weight: bold; cursor: pointer;
+}
+.start-match-btn:hover { background: #16a34a; }
+
+.scoreboard {
+  width: 100%; display: flex; justify-content: space-between; align-items: center;
+  background: #0f172a; padding: 10px 15px; border-radius: 10px; margin-bottom: 10px;
+}
+.team { display: flex; flex-direction: column; gap: 4px; font-weight: bold; font-size: 0.9rem; }
+.dots { display: flex; gap: 4px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: #334155; }
+.dot.goal { background: #22c55e; }
+.dot.miss { background: #ef4444; }
+.score-text { font-size: 1.5rem; font-weight: bold; color: #facc15; }
+
+.banner {
+  background: #334155; padding: 6px 16px; border-radius: 20px;
+  font-weight: bold; margin-bottom: 10px; color: #38bdf8;
+}
+
+canvas {
+  width: 100%;
+  border-radius: 10px;
+  border: 2px solid #475569;
+  background: #15803d;
+  cursor: crosshair;
+}
+
+.hint { margin-top: 8px; font-size: 0.9rem; color: #94a3b8; }
+
+#result-title { font-size: 2.2rem; color: #22c55e; margin-bottom: 10px; }
+#result-detail { font-size: 1.2rem; margin-bottom: 20px; }
+.end-buttons { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+.secondary-btn {
+  width: 100%; padding: 12px; background: #334155; color: white;
+  border: none; border-radius: 10px; font-size: 1rem; cursor: pointer;
+}
