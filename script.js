@@ -104,7 +104,6 @@ function changeStat(key, delta) {
   renderCustomSliders();
 }
 
-// Render daftar striker saat pertama kali halaman dibuka
 renderProList();
 renderCustomSliders();
 function startMatch() {
@@ -164,7 +163,6 @@ function setupTurn() {
     return;
   }
 
-  // Giliran Pemain Menendang
   if (kickMode === 'arrow') {
     match.phase = 'AIM_X';
     match.arrowX = 300;
@@ -173,11 +171,11 @@ function setupTurn() {
     match.arrowY = 185;
     match.arrowDirY = -baseSpeed * 0.8;
     banner.innerText = `Ronde ${match.round} (Giliranmu): Kunci Arah!`;
-    hint.innerText = "Klik layar atau tekan SPASI untuk mengunci arah!";
+    hint.innerText = "Sentuh layar / klik / tekan SPASI untuk mengunci arah!";
   } else {
     match.phase = 'SWIPE_DRAW';
     banner.innerText = `Ronde ${match.round} (Giliranmu): Gambar Garis & Jaga Power Bar!`;
-    hint.innerText = "Klik & tahan dari bola, gambar garis melengkung ke gawang, lalu lepas!";
+    hint.innerText = "Sentuh & tarik garis melengkung dari bola ke gawang, lalu lepas!";
   }
 }
 window.addEventListener('keydown', (e) => {
@@ -187,8 +185,21 @@ window.addEventListener('keydown', (e) => {
   }
 });
 
-canvas.addEventListener('mousedown', (e) => {
-  const pos = getCanvasPos(e);
+function getClientPos(e) {
+  const rect = canvas.getBoundingClientRect();
+  const touch = (e.touches && e.touches.length > 0) ? e.touches.item(0) : null;
+  const clientX = touch ? touch.clientX : e.clientX;
+  const clientY = touch ? touch.clientY : e.clientY;
+  return {
+    x: (clientX - rect.left) * (canvas.width / rect.width),
+    y: (clientY - rect.top) * (canvas.height / rect.height)
+  };
+}
+
+function onStartInput(e) {
+  if (e.cancelable) e.preventDefault();
+  const pos = getClientPos(e);
+
   if (kickMode === 'arrow' && match.turn === 'PLAYER') {
     handleActionClick();
   } else if (kickMode === 'swipe' && match.phase === 'SWIPE_DRAW') {
@@ -197,15 +208,17 @@ canvas.addEventListener('mousedown', (e) => {
     match.powerMeter.dir = 3.2;
     match.dragPoints = [{ x: match.ball.x, y: match.ball.y }, pos];
   }
-});
+}
 
-canvas.addEventListener('mousemove', (e) => {
+function onMoveInput(e) {
   if (!match.isDragging) return;
-  match.dragPoints.push(getCanvasPos(e));
-});
+  if (e.cancelable) e.preventDefault();
+  match.dragPoints.push(getClientPos(e));
+}
 
-canvas.addEventListener('mouseup', () => {
+function onEndInput(e) {
   if (!match.isDragging || match.phase !== 'SWIPE_DRAW') return;
+  if (e && e.cancelable) e.preventDefault();
   match.isDragging = false;
 
   if (match.dragPoints.length < 2) {
@@ -257,15 +270,15 @@ canvas.addEventListener('mouseup', () => {
   match.pendingShot = { tx: targetX, ty: targetY, cx: ctrlX, cy: ctrlY, speed };
   match.dragPoints = [];
   startRunUpAndKick('STRIKER_PLAYER');
-});
-
-function getCanvasPos(e) {
-  const rect = canvas.getBoundingClientRect();
-  return {
-    x: (e.clientX - rect.left) * (canvas.width / rect.width),
-    y: (e.clientY - rect.top) * (canvas.height / rect.height)
-  };
 }
+
+canvas.addEventListener('mousedown', onStartInput);
+canvas.addEventListener('mousemove', onMoveInput);
+window.addEventListener('mouseup', onEndInput);
+
+canvas.addEventListener('touchstart', onStartInput, { passive: false });
+canvas.addEventListener('touchmove', onMoveInput, { passive: false });
+window.addEventListener('touchend', onEndInput, { passive: false });
 
 function handleActionClick() {
   if (kickMode !== 'arrow' || match.turn !== 'PLAYER') return;
