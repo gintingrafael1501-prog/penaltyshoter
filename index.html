@@ -8,52 +8,32 @@
 </head>
 <body>
   <div id="app">
-    <!-- Layar 1: Menu Utama -->
-    <div id="screen-menu" class="screen active">
+    <!-- Layar 1: Pilih / Buat Striker -->
+    <div id="screen-select" class="screen active">
       <h1 class="logo">PENALTY <span>SHOTTER</span></h1>
-      <p class="subtitle">Pilih Peranmu di Lapangan</p>
-      <div class="role-cards">
-        <button class="role-btn" onclick="selectRole('striker')">
-          <span class="icon">⚽</span>
-          <strong>STRIKER</strong>
-          <small>Cetak gol sebanyak mungkin</small>
-        </button>
-        <button class="role-btn" onclick="selectRole('keeper')">
-          <span class="icon">🧤</span>
-          <strong>KIPER</strong>
-          <small>Tepis setiap tendangan lawan</small>
-        </button>
-      </div>
-    </div>
-
-    <!-- Layar 2: Pilih / Buat Pemain -->
-    <div id="screen-select" class="screen">
-      <div class="top-bar">
-        <button class="back-btn" onclick="showScreen('screen-menu')">← Kembali</button>
-        <h2 id="select-title">Pilih Striker</h2>
-      </div>
+      <p class="subtitle">Pilih Striker atau Buat Pemainmu Sendiri</p>
 
       <div class="tabs">
-        <button id="tab-pro" class="tab active" onclick="switchTab('pro')">5 Pemain Bintang</button>
-        <button id="tab-custom" class="tab" onclick="switchTab('custom')">Buat Pemain (15 Poin)</button>
+        <button id="tab-pro" class="tab active" onclick="switchTab('pro')">5 Striker Bintang</button>
+        <button id="tab-custom" class="tab" onclick="switchTab('custom')">Buat Striker (15 Poin)</button>
       </div>
 
-      <!-- Tab Pemain Bintang -->
+      <!-- Tab Striker Bintang -->
       <div id="panel-pro" class="panel active">
         <div id="player-list" class="player-grid"></div>
       </div>
 
-      <!-- Tab Buat Pemain -->
+      <!-- Tab Buat Striker -->
       <div id="panel-custom" class="panel">
         <div class="custom-box">
-          <input type="text" id="custom-name" placeholder="Nama Pemainmu..." maxlength="15" value="Player 1">
+          <input type="text" id="custom-name" placeholder="Nama Striker..." maxlength="15" value="Player 1">
           <div class="points-badge">Sisa Poin: <span id="points-left">0</span> / 15</div>
           <div id="stat-sliders"></div>
         </div>
       </div>
 
-      <!-- Pilihan Mode Tendang (Hanya muncul jika Striker) -->
-      <div id="mode-selector" class="mode-box">
+      <!-- Pilihan Mode Tendang -->
+      <div class="mode-box">
         <p>Pilih Gaya Tendangan:</p>
         <div class="mode-options">
           <label class="mode-opt">
@@ -62,7 +42,7 @@
           </label>
           <label class="mode-opt">
             <input type="radio" name="kickMode" value="swipe">
-            <span>✍️ Tarik Garis & Power</span>
+            <span>✍️ Gambar Garis Lengkung & Power Bar</span>
           </label>
         </div>
       </div>
@@ -70,7 +50,7 @@
       <button class="start-match-btn" onclick="startMatch()">MULAI PERTANDINGAN</button>
     </div>
 
-    <!-- Layar 3: Arena Pertandingan -->
+    <!-- Layar 2: Arena Pertandingan -->
     <div id="screen-game" class="screen">
       <div class="scoreboard">
         <div class="team">
@@ -88,13 +68,13 @@
       <div id="controls-hint" class="hint">Klik / Spasi untuk mengunci arah!</div>
     </div>
 
-    <!-- Layar 4: Game Over / Hasil -->
+    <!-- Layar 3: Game Over / Hasil -->
     <div id="screen-gameover" class="screen">
       <h1 id="result-title">KAMU MENANG!</h1>
       <p id="result-detail">Skor Akhir: 5 - 3</p>
       <div class="end-buttons">
-        <button class="start-match-btn" onclick="restartMatch()">Main Lagi (Pemain Sama)</button>
-        <button class="secondary-btn" onclick="showScreen('screen-menu')">Ganti Peran / Pemain</button>
+        <button class="start-match-btn" onclick="restartMatch()">Main Lagi (Striker Sama)</button>
+        <button class="secondary-btn" onclick="showScreen('screen-select')">Ganti Striker / Gaya Tendang</button>
       </div>
     </div>
   </div>
